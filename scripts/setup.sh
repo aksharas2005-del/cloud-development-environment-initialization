@@ -2,13 +2,11 @@
 
 echo "Starting Cloud Development Environment setup..."
 
-PROJECT_NAME="cloud-development-environment-initialization"
+mkdir -p docs
+mkdir -p scripts
+mkdir -p screenshots
 
-mkdir -p "$PROJECT_NAME"
-cd "$PROJECT_NAME" || exit 1
-
-mkdir -p docs scripts screenshots
-
+if [ ! -f README.md ]; then
 cat > README.md <<EOF
 # Cloud Development Environment Initialization
 
@@ -16,7 +14,9 @@ Cloud and DevOps Internship Task 1
 
 This project provides a standardized Linux-based Cloud and DevOps development environment.
 EOF
+fi
 
+if [ ! -f .gitignore ]; then
 cat > .gitignore <<EOF
 *.log
 *.tmp
@@ -25,6 +25,7 @@ id_rsa
 id_ed25519
 .DS_Store
 EOF
+fi
 
 touch docs/installation-guide.md
 touch docs/project-structure.md
@@ -38,6 +39,10 @@ fi
 
 git add .
 
-git commit -m "Initial project setup"
+if git diff --cached --quiet; then
+    echo "No new changes to commit."
+else
+    git commit -m "Initialize project structure"
+fi
 
 echo "Project setup completed successfully."
